@@ -1,0 +1,50 @@
+<p style="color: green"><%= notice %></p>
+
+<% if user_signed_in? %>  
+<div class="position-relative">
+<%= link_to "+", new_fridge_item_path, class: "btn btn-primary btn-lg position-absolute top-0 end-0" %> 
+  
+  <h1>Fridge items</h1>
+
+  <table class="table table-hover" style="width: 100%">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Expiration Date</th>
+        <th scope="col">Notes</th>
+        <th scope="col">Grocery<th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @fridge_items.each do |fridge_item| %>
+       
+          <tr>
+            <%= render fridge_item %>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+ <%# link_to "New fridge item", new_fridge_item_path %> 
+<% else %>
+  <h1>Not Signed In</h1>
+  <p>Please sign up or sign in to view and edit fridge items.</p>
+<% end %>
+</div>
+
+
+
+
+
+
+
+<% if false %>
+<div id="fridge_items">
+  <% @fridge_items.each do |fridge_item| %>
+      <%= render fridge_item %>
+      <p>
+        <%= link_to "Show this fridge item", fridge_item %>
+      </p>
+  <% end %>
+</div>
+<% end %>

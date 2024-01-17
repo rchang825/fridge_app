@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @grocery %>
+<div>
+  <% @grocery.fridge_items.each do |fridge_item| %>
+    <%= render fridge_item %>
+  <%end%>
+</div>
+<div>
+  <%= link_to "Back to groceries", groceries_path %>
+
+  <%# button_to "Destroy this grocery", @grocery, method: :delete %>
+</div>

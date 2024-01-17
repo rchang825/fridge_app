@@ -1,0 +1,44 @@
+<div id="<%= dom_id fridge_item %>">
+    <td>
+      <%= link_to fridge_item.item_name, edit_fridge_item_path(fridge_item) %>
+    </td>
+    <td>
+      <%= fridge_item.item_quantity %>
+    </td>
+    <td>
+      <%= fridge_item.expiration_date %>
+    </td>
+    <td>
+      <%= fridge_item.notes %>
+    </td>
+    <td>
+      <%= link_to "Grocery", groceries_path(fridge_item.grocery_name) %>
+    </td>
+</div>
+
+
+
+
+
+
+<% if false %>
+  <p>
+    <strong>Item name:</strong>
+    <%= fridge_item.item_name %>
+  </p>
+
+  <p>
+    <strong>Item quantity:</strong>
+    <%= fridge_item.item_quantity %>
+  </p>
+
+  <p>
+    <strong>Expiration date:</strong>
+    <%= fridge_item.expiration_date %>
+  </p>
+
+  <p>
+    <strong>Notes:</strong>
+    <%= fridge_item.notes %>
+  </p>
+<% end %>
