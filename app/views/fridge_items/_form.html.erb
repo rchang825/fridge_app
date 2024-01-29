@@ -28,7 +28,7 @@
 
   <div>
     <%= form.label :notes, style: "display: block" %>
-    <%= form.text_field :notes %>
+    <%= form.text_field(:notes, onchange: "if(false) {alert('Please enter a valid date YYYY/MM/DD'); }") %>
   </div>
   <div>
     <%= form.label :user_id, style: "display: none"%>

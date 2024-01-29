@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   resources :groceries
   devise_for :users
-  resources :fridge_items
+  resources :fridge_items do
+    member do
+      post :increment_quantity
+      post :decrement_quantity
+    end
+  end
   get 'home/about'
   root 'fridge_items#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -12,4 +17,5 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
 end

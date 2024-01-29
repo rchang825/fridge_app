@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_15_064120) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_27_011217) do
   create_table "fridge_items", force: :cascade do |t|
     t.string "item_name"
     t.decimal "item_quantity"
@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_15_064120) do
     t.datetime "updated_at", null: false
     t.integer "user_id"
     t.string "grocery_name"
+    t.decimal "initial_quantity"
     t.index ["user_id"], name: "index_fridge_items_on_user_id"
   end
 

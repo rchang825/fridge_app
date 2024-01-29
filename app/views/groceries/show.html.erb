@@ -2,12 +2,26 @@
 
 <%= render @grocery %>
 <div>
-  <% @grocery.fridge_items.each do |fridge_item| %>
-    <%= render fridge_item %>
+  <table class="table table-hover" style="width: 100%">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Notes</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Bought On</th>
+      <th scope="col">Expiration Date</th>
+      <th scope="col">Finished On</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @fridge_items.each do |fridge_item| %>
+    <tr>
+      <%= render partial: "fridge_items/grocery_fridge_item", locals: {fridge_item: fridge_item} %>
+    </tr>
   <%end%>
 </div>
 <div>
-  <%= link_to "Back to groceries", groceries_path %>
+  <%= link_to "All Groceries", groceries_path %>
 
   <%# button_to "Destroy this grocery", @grocery, method: :delete %>
 </div>

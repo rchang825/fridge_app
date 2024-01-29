@@ -8,6 +8,7 @@ class GroceriesController < ApplicationController
 
   # GET /groceries/1 or /groceries/1.json
   def show
+    @fridge_items = @grocery.fridge_items
   end
 
   # GET /groceries/new

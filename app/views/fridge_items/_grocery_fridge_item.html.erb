@@ -1,0 +1,18 @@
+<td class="item_name">
+    <%= fridge_item.item_name %>
+</td>
+<td class="item_notes">
+  <%= fridge_item.notes %>
+</td>
+<td>
+    <%= fridge_item.initial_quantity%>
+</td>
+<td>
+    <%= fridge_item.created_at %>
+</td>
+<td>
+    <%= fridge_item.expiration_date %>
+</td>
+<td>
+    <%= fridge_item.updated_at if fridge_item.item_quantity <= 0 %>
+</td>

@@ -24,12 +24,19 @@ class FridgeItemsController < ApplicationController
 
   # POST /fridge_items or /fridge_items.json
   def create
-    #create new grocery if not already in database
-    item_name_param = params[:fridge_item][:item_name]
-    Grocery.create!(name:item_name_param) if !Grocery.find_by(name:item_name_param)
-    puts fridge_item_params.to_h.merge({grocery_name:item_name_param}).inspect
-    @fridge_item = current_user.fridge_items.build(fridge_item_params.to_h.merge({grocery_name:item_name_param}))
 
+    #saves initial quantity to fridge item and grocery
+    @fridge_item = current_user.fridge_items.build(fridge_item_params)
+    item_name = @fridge_item.item_name
+    @fridge_item.grocery_name = item_name
+    @fridge_item.initial_quantity = @fridge_item.item_quantity
+
+    #create new grocery if not already in database
+    Grocery.create!(name: item_name) if !Grocery.find_by(name:item_name)
+    #puts fridge_item_params.to_h.merge({grocery_name:item_name_param}).inspect
+
+    #puts "FI:"
+    #puts @fridge_item.inspect
     respond_to do |format|
       if @fridge_item.save
         format.html { redirect_to fridge_item_url(@fridge_item), notice: "Fridge item was successfully created." }
@@ -56,19 +63,33 @@ class FridgeItemsController < ApplicationController
 
   # DELETE /fridge_items/1 or /fridge_items/1.json
   def destroy
-    @fridge_item.destroy!
+    @fridge_item.item_quantity = 0
+    @fridge_item.save
 
     respond_to do |format|
       format.html { redirect_to fridge_items_url, notice: "Fridge item was successfully destroyed." }
       format.json { head :no_content }
     end
   end
-
   def correct_user
     @fridge_item = current_user.fridge_items.find_by(id: params[:id])
     redirect_to fridge_items_path, notice: "Please sign in to view and edit your fridge items." if @fridge_item.nil?
   end
-
+  def increment_quantity
+    @fridge_item = current_user.fridge_items.find_by(id: params[:id])
+    @fridge_item.update!(item_quantity: @fridge_item.item_quantity + 1)
+    respond_to do |format|
+      format.js {render inline: "location.reload();" }
+    end
+    #increment_counter(:item_quantity, @fridge_item)
+  end
+  def decrement_quantity
+    @fridge_item = current_user.fridge_items.find_by(id: params[:id])
+    @fridge_item.update!(item_quantity: @fridge_item.item_quantity - 1)
+    respond_to do |format|
+      format.js {render inline: "location.reload();" }
+    end
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_fridge_item
