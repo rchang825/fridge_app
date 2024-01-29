@@ -8,11 +8,23 @@
     <%= fridge_item.initial_quantity%>
 </td>
 <td>
-    <%= fridge_item.created_at %>
+    <%= fridge_item.created_at.strftime("%m/%d/%y") %>
 </td>
 <td>
     <%= fridge_item.expiration_date %>
 </td>
+<% if fridge_item.item_quantity <= 0 %>
 <td>
-    <%= fridge_item.updated_at if fridge_item.item_quantity <= 0 %>
+    <%= fridge_item.updated_at.strftime("%m/%d/%y") %>
 </td>
+<td>
+    <%= ((fridge_item.updated_at - fridge_item.created_at)/1.day).round(1) %>
+</td>
+<td>
+    <%= fridge_item.disposed_quantity %>
+</td>
+<% else %>
+<td></td>
+<td></td>
+<td></td>
+<% end %>

@@ -63,6 +63,9 @@ class FridgeItemsController < ApplicationController
 
   # DELETE /fridge_items/1 or /fridge_items/1.json
   def destroy
+    #set disposed_quantity to be the last known quantity
+    @fridge_item.disposed_quantity = @fridge_item.item_quantity
+    #set item_quantity to 0 so that it is now visible in groceries tab
     @fridge_item.item_quantity = 0
     @fridge_item.save
 
