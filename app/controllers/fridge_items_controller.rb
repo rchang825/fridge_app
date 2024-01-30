@@ -4,9 +4,20 @@ class FridgeItemsController < ApplicationController
   before_action :correct_user, only: [:edit, :update, :destroy]
   # GET /fridge_items or /fridge_items.json
   def index
-    @fridge_items = current_user.fridge_items.where("item_quantity > 0") if current_user.present?
-    #@fridge_items = current_user.fridge_items.filter{|item| item.item_quantity > 0} if current_user.present?
+    sort_map =  {
+      exp: "expiration_date",
+      name: "item_name"
+    }
+    @sort_param = params[:sort]
 
+    sort_key = sort_map[@sort_param&.to_sym]
+    puts sort_key
+
+    if current_user.present?
+      @fridge_items = current_user.fridge_items.where("item_quantity > 0")
+      @fridge_items = @fridge_items.order(sort_key) if sort_key
+      #@fridge_items = current_user.fridge_items.filter{|item| item.item_quantity > 0} if current_user.present?
+    end
   end
 
   # GET /fridge_items/1 or /fridge_items/1.json

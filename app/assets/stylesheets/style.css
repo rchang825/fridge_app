@@ -1,0 +1,9 @@
+html {
+
+}
+@media only screen and (max-width: 768px) {
+    /*for phones and tablets, only show name, quantity, and expiration date of each item*/
+    .extra {
+        display: none;
+    }
+}

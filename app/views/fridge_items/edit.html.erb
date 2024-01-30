@@ -6,5 +6,7 @@
 
 <div>
   <%= button_to "Delete fridge item", @fridge_item, method: :delete %>
+  <%= link_to "Go To Grocery", '../../groceries/' + @fridge_item.grocery_name %> 
+  |
   <%= link_to "Back to fridge items", fridge_items_path %>
 </div>
