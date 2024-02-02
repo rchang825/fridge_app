@@ -4,4 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
           has_many :fridge_items
+          #has_many :groceries
+          #has_many :shopping_list_items
 end

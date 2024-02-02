@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  resources :shopping_list_items
+  resources :shopping_items
+  resources :fridge_item_taggings
+  resources :tags
   resources :groceries
   devise_for :users
   resources :fridge_items do

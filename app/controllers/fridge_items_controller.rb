@@ -63,6 +63,11 @@ class FridgeItemsController < ApplicationController
   def update
     respond_to do |format|
       if @fridge_item.update(fridge_item_params)
+        #create new shopping list item if something in fridge_items goes to 0
+        if @fridge_item.item_quantity <= 0
+          ShoppingListItem.create!(name: @fridge_item.item_name, quantity: @fridge_item.initial_quantity, creator: "auto")
+          puts "new item added to shopping list"
+        end
         format.html { redirect_to fridge_item_url(@fridge_item), notice: "Fridge item was successfully updated." }
         format.json { render :show, status: :ok, location: @fridge_item }
       else
@@ -78,10 +83,12 @@ class FridgeItemsController < ApplicationController
     @fridge_item.disposed_quantity = @fridge_item.item_quantity
     #set item_quantity to 0 so that it is now visible in groceries tab
     @fridge_item.item_quantity = 0
+    #add ex fridge item to shopping list (create new shopping_list_item)
+    ShoppingListItem.create!(name: @fridge_item.item_name, quantity: @fridge_item.initial_quantity, creator: "auto")
     @fridge_item.save
 
     respond_to do |format|
-      format.html { redirect_to fridge_items_url, notice: "Fridge item was successfully destroyed." }
+      format.html { redirect_to fridge_items_url, notice: "Fridge item was successfully destroyed. Added to Shopping List!" }
       format.json { head :no_content }
     end
   end
@@ -100,8 +107,11 @@ class FridgeItemsController < ApplicationController
   def decrement_quantity
     @fridge_item = current_user.fridge_items.find_by(id: params[:id])
     @fridge_item.update!(item_quantity: @fridge_item.item_quantity - 1)
-    respond_to do |format|
-      format.js {render inline: "location.reload();" }
+    if @fridge_item.item_quantity <= 0
+      ShoppingListItem.create!(name: @fridge_item.item_name, quantity: @fridge_item.initial_quantity, creator: "auto")
+      redirect_to url_for, notice: "Fridge item deleted and added to Shopping List!"
+    else
+      redirect_to url_for
     end
   end
   private

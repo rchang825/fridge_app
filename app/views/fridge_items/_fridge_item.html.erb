@@ -3,7 +3,7 @@
 </td>
 <td class="item_quantity">
   <div style="display: inline-flex">
-  <%= button_to "-", decrement_quantity_fridge_item_path(fridge_item), data: { turbo_method: "post"} %>
+  <%= button_to "-", decrement_quantity_fridge_item_path(fridge_item) %>
   <%= fridge_item.item_quantity %>
   <%= button_to "+", increment_quantity_fridge_item_path(fridge_item), data: { turbo_method: "post"} %>
   </div>

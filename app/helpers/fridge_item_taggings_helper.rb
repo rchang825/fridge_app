@@ -1,0 +1,2 @@
+module FridgeItemTaggingsHelper
+end

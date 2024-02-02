@@ -1,0 +1,27 @@
+<%= form_with(model: fridge_item_tagging) do |form| %>
+  <% if fridge_item_tagging.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(fridge_item_tagging.errors.count, "error") %> prohibited this fridge_item_tagging from being saved:</h2>
+
+      <ul>
+        <% fridge_item_tagging.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :fridge_item_id, style: "display: block" %>
+    <%= form.text_field :fridge_item_id %>
+  </div>
+
+  <div>
+    <%= form.label :tag_id, style: "display: block" %>
+    <%= form.text_field :tag_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
