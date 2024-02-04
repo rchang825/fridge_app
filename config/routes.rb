@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     member do
       post :increment_quantity
       post :decrement_quantity
+      get :inline_edit
     end
   end
   get 'home/about'

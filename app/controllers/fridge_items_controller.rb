@@ -66,7 +66,6 @@ class FridgeItemsController < ApplicationController
         #create new shopping list item if something in fridge_items goes to 0
         if @fridge_item.item_quantity <= 0
           ShoppingListItem.create!(name: @fridge_item.item_name, quantity: @fridge_item.initial_quantity, creator: "auto")
-          puts "new item added to shopping list"
         end
         format.html { redirect_to fridge_item_url(@fridge_item), notice: "Fridge item was successfully updated." }
         format.json { render :show, status: :ok, location: @fridge_item }
@@ -93,31 +92,37 @@ class FridgeItemsController < ApplicationController
     end
   end
   def correct_user
-    @fridge_item = current_user.fridge_items.find_by(id: params[:id])
+    #@fridge_item = current_user.fridge_items.find_by(id: params[:id])
+    set_fridge_item
     redirect_to fridge_items_path, notice: "Please sign in to view and edit your fridge items." if @fridge_item.nil?
   end
   def increment_quantity
-    @fridge_item = current_user.fridge_items.find_by(id: params[:id])
+    #@fridge_item = current_user.fridge_items.find_by(id: params[:id])
+    set_fridge_item
     @fridge_item.update!(item_quantity: @fridge_item.item_quantity + 1)
-    respond_to do |format|
-      format.js {render inline: "location.reload();" }
-    end
+    redirect_to fridge_items_path
     #increment_counter(:item_quantity, @fridge_item)
   end
   def decrement_quantity
-    @fridge_item = current_user.fridge_items.find_by(id: params[:id])
+    #@fridge_item = current_user.fridge_items.find_by(id: params[:id])
+    set_fridge_item
     @fridge_item.update!(item_quantity: @fridge_item.item_quantity - 1)
     if @fridge_item.item_quantity <= 0
       ShoppingListItem.create!(name: @fridge_item.item_name, quantity: @fridge_item.initial_quantity, creator: "auto")
-      redirect_to url_for, notice: "Fridge item deleted and added to Shopping List!"
+      redirect_to fridge_items_path, notice: "Fridge item deleted and added to Shopping List!"
     else
-      redirect_to url_for
+      redirect_to fridge_items_path
     end
+  end
+  def inline_edit
+    set_fridge_item
+
   end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_fridge_item
-      @fridge_item = FridgeItem.find(params[:id])
+      #@fridge_item = FridgeItem.find(params[:id])
+      @fridge_item = current_user.fridge_items.find_by(id: params[:id])
     end
 
     # Only allow a list of trusted parameters through.
