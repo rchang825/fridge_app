@@ -31,7 +31,7 @@
       </thead>
       <tbody>
         <% @fridge_items.each do |fridge_item| %>
-            <%= render fridge_item %>
+            <%= render "fridge_item_row", fridge_item: fridge_item %>
         <% end %>
       </tbody>
     </table>

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
       post :increment_quantity
       post :decrement_quantity
       get :inline_edit
+      post :add_to_shopping_list
+      get :edited_add_to_shopping_list
     end
   end
   get 'home/about'

@@ -1,0 +1,53 @@
+<% if fridge_item.item_quantity <= 0 %>
+  <tr id="<%= dom_id fridge_item %>" class="undismissed_row">
+    <td class="item_name">
+      <%= fridge_item.item_name %>
+    </td>
+    <td>
+      <%= fridge_item.initial_quantity %>
+    </td>
+    <td>Add Item to Shopping List?</td>
+    <td>
+      <turbo-frame id="fridge_item_accept_<%=fridge_item.id%>">
+        <%= link_to "Accept", add_to_shopping_list_fridge_item_path(fridge_item), data: { turbo_method: "post"} %>
+      </turbo-frame>
+    </td>
+    <td>
+      <%= link_to "Edit", edited_add_to_shopping_list_fridge_item_path(fridge_item),data: { turbo_frame: "_top" }  %>
+    </td>
+    <td>
+      Decline
+    </td>
+  </tr>
+<% else %>
+  <tr id="<%= dom_id fridge_item %>">
+    <td class="item_name">
+      <%= link_to fridge_item.item_name, edit_fridge_item_path(fridge_item) %>
+    </td>
+    <td class="item_quantity">
+      <turbo-frame id="fridge_item_row_<%=fridge_item.id%>">
+        <div style="display: inline-flex">
+        <% if fridge_item.item_quantity > 0 && fridge_item.item_quantity <= 1 %>
+          <%= button_to "-", decrement_quantity_fridge_item_path(fridge_item), data: { turbo_frame: "fridge_items_list" } %>
+        <% else %>
+          <%= button_to "-", decrement_quantity_fridge_item_path(fridge_item) %>
+        <% end %>
+        <%= link_to fridge_item.item_quantity, inline_edit_fridge_item_path(fridge_item) %>
+        <%= button_to "+", increment_quantity_fridge_item_path(fridge_item), data: { turbo_method: "post" } %>
+        </div>
+      </turbo-frame>
+    </td>
+    <td class="item_expiration_date">
+      <%= fridge_item.expiration_date %>
+    </td>
+    <td class="item_notes extra">
+      <%= fridge_item.notes %>
+    </td>
+    <td class="extra">
+      <%= link_to "Go To Grocery", 'groceries/' + fridge_item.grocery_name, data: { turbo_frame: "_top" }  %>
+    </td>
+    <td class="extra">
+      <%= button_to "-", fridge_item, method: :delete, class: "btn btn-danger btn-sm" %>
+    </td>
+  </tr>
+<% end %>

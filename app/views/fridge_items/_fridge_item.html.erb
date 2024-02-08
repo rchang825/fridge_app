@@ -1,54 +1,19 @@
+<p>
+  <strong>Item name:</strong>
+  <%= fridge_item.item_name %>
+</p>
 
-  <tr id="<%= dom_id fridge_item %>">
-  <td class="item_name">
-    <%= link_to fridge_item.item_name, edit_fridge_item_path(fridge_item) %>
-  </td>
-  <td class="item_quantity">
-    <turbo-frame id="fridge_item_row_<%=fridge_item.id%>">
-    <div style="display: inline-flex">
-    <%= button_to "-", decrement_quantity_fridge_item_path(fridge_item) %>
-    <%= link_to fridge_item.item_quantity, inline_edit_fridge_item_path(fridge_item) %>
-    <%= button_to "+", increment_quantity_fridge_item_path(fridge_item), data: { turbo_method: "post"} %>
-    </div>
-    </turbo-frame>
-  </td>
-  <td class="item_expiration_date">
-    <%= fridge_item.expiration_date %>
-  </td>
-  <td class="item_notes extra">
-    <%= fridge_item.notes %>
-  </td>
-  <td class="extra">
-    <%= link_to "Go To Grocery", 'groceries/' + fridge_item.grocery_name %>
-  </td>
-  <td class="extra">
-    <%= button_to "-", fridge_item, method: :delete, class: "btn btn-danger btn-sm" %>
-  </td>
-  </tr>
+<p>
+  <strong>Item quantity:</strong>
+  <%= fridge_item.item_quantity %>
+</p>
 
+<p>
+  <strong>Expiration date:</strong>
+  <%= fridge_item.expiration_date %>
+</p>
 
-
-
-
-
-<% if false %>
-  <p>
-    <strong>Item name:</strong>
-    <%= fridge_item.item_name %>
-  </p>
-
-  <p>
-    <strong>Item quantity:</strong>
-    <%= fridge_item.item_quantity %>
-  </p>
-
-  <p>
-    <strong>Expiration date:</strong>
-    <%= fridge_item.expiration_date %>
-  </p>
-
-  <p>
-    <strong>Notes:</strong>
-    <%= fridge_item.notes %>
-  </p>
-<% end %>
+<p>
+  <strong>Notes:</strong>
+  <%= fridge_item.notes %>
+</p>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_01_000231) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_07_032558) do
   create_table "fridge_item_taggings", force: :cascade do |t|
     t.integer "fridge_item_id", null: false
     t.integer "tag_id", null: false
@@ -31,6 +31,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_01_000231) do
     t.string "grocery_name"
     t.decimal "initial_quantity"
     t.decimal "disposed_quantity"
+    t.boolean "dismissed", default: false
     t.index ["user_id"], name: "index_fridge_items_on_user_id"
   end
 
