@@ -65,11 +65,11 @@ class FridgeItemsController < ApplicationController
   def update
     respond_to do |format|
       if @fridge_item.update(fridge_item_params)
-        #create new shopping list item if something in fridge_items goes to 0
+        @fridge_item.update!(item_quantity: 0) if @fridge_item.item_quantity < 0
         if @fridge_item.item_quantity <= 0
           ShoppingListItem.create!(name: @fridge_item.item_name, quantity: @fridge_item.initial_quantity, creator: "auto")
         end
-        format.html { redirect_to fridge_item_url(@fridge_item), notice: "Fridge item was successfully updated." }
+        format.html { redirect_to fridge_items_path }
         format.json { render :show, status: :ok, location: @fridge_item }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -108,7 +108,8 @@ class FridgeItemsController < ApplicationController
   def decrement_quantity
     #@fridge_item = current_user.fridge_items.find_by(id: params[:id])
     set_fridge_item
-    @fridge_item.update!(item_quantity: @fridge_item.item_quantity - 1)
+    @fridge_item.item_quantity >= 1 ? @fridge_item.update!(item_quantity: @fridge_item.item_quantity - 1) : @fridge_item.update!(item_quantity: 0)
+    # @fridge_item.update!(item_quantity: @fridge_item.item_quantity - 1)
     # if @fridge_item.item_quantity <= 0
     #   ShoppingListItem.create!(name: @fridge_item.item_name, quantity: @fridge_item.initial_quantity, creator: "auto")
     #   redirect_to fridge_items_path, notice: "Fridge item deleted and added to Shopping List!"
@@ -125,6 +126,10 @@ class FridgeItemsController < ApplicationController
   def edited_add_to_shopping_list
     shopping_list_item = set_shopping_list_item
     redirect_to edit_shopping_list_item_path(shopping_list_item)
+  end
+  def decline_add_to_shopping_list
+    @fridge_item.update!(dismissed: true)
+    redirect_to fridge_items_path
   end
   private
     # Use callbacks to share common setup or constraints between actions.

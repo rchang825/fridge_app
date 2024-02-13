@@ -1,6 +1,6 @@
 <turbo-frame id="fridge_item_row_<%=@fridge_item.id%>">
     <%= form_with(model: @fridge_item) do |form| %>
         <%= form.text_field :item_quantity, size:5 %>
-        <%= form.submit "Save" %>
+        <%= form.submit "Save", data: {turbo_frame: "fridge_items_list"} %>
     <% end %>
 </turbo-frame>

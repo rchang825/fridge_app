@@ -1,4 +1,5 @@
 <% if fridge_item.item_quantity <= 0 %>
+    <%= puts fridge_item.item_name + " should be rendered in red" %>
   <tr id="<%= dom_id fridge_item %>" class="undismissed_row">
     <td class="item_name">
       <%= fridge_item.item_name %>
@@ -13,10 +14,10 @@
       </turbo-frame>
     </td>
     <td>
-      <%= link_to "Edit", edited_add_to_shopping_list_fridge_item_path(fridge_item),data: { turbo_frame: "_top" }  %>
+      <%= link_to "Edit", edited_add_to_shopping_list_fridge_item_path(fridge_item), data: { turbo_frame: "_top" }  %>
     </td>
     <td>
-      Decline
+      <%= link_to "Decline", decline_add_to_shopping_list_fridge_item_path(fridge_item), data: { turbo_method: "post", turbo_frame: "fridge_items_list"} %>
     </td>
   </tr>
 <% else %>

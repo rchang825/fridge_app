@@ -12,6 +12,7 @@ Rails.application.routes.draw do
       get :inline_edit
       post :add_to_shopping_list
       get :edited_add_to_shopping_list
+      post :decline_add_to_shopping_list
     end
   end
   get 'home/about'
