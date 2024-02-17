@@ -8,6 +8,18 @@ html {
     }
 }
 
-tr.undismissed_row td{
+tr.undismissed_row td {
     background-color: pink
+}
+ul.unstyle_list {
+    padding:0;
+}
+li.shopping_list_item_line {
+    list-style-type:none;
+}
+.checked_item_line {
+    opacity:0.5;
+}
+.shopping_list_item div{
+    padding: 2px;
 }

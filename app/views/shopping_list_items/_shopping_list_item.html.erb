@@ -1,14 +1,37 @@
-<div id="<%= dom_id shopping_list_item %>">
-  <p>
-    <strong>Name:</strong>
-    <%= shopping_list_item.name %>
-  </p>
-  <p>
-    <strong>Quantity:</strong>
-    <%= shopping_list_item.quantity %>
-  </p>
-  <p style="display: none">
-    <strong>Creator:</strong>
-    <%= shopping_list_item.creator %>
-  </p>
-</div>
+<% if shopping_list_item.dismissed == 1 %>
+    <div id="<%= dom_id shopping_list_item %>" class="checked_item_line">
+    <div>
+      <%= shopping_list_item.quantity %>
+      <%= " " + shopping_list_item.name %>
+    </div>
+    <div>
+      Add Item to Fridge?
+      <turbo-frame>
+        <%= link_to "Accept" %>
+        <%# new partial with turboframe that changes to Added!%>
+      </turbo-frame>
+      |
+      <%= link_to "Edit" %>
+      <%# create new fridge item and redirect to edit page for it%>
+      |
+      <%= link_to "Decline and Remove from List" %>
+      <%# destroys SLI, whole line disappears %>
+    </div>
+    <div style="display: none">
+      <strong>Creator:</strong>
+      <%= shopping_list_item.creator %>
+    </p>
+  </div>
+<% else %>
+  <div id="<%= dom_id shopping_list_item %>">
+    <div>
+      <%= shopping_list_item.quantity %>
+      <%= " " + shopping_list_item.name %>
+    </div>
+
+    <div style="display: none">
+      <strong>Creator:</strong>
+      <%= shopping_list_item.creator %>
+    </p>
+  </div>
+<% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_07_032558) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_15_222650) do
   create_table "fridge_item_taggings", force: :cascade do |t|
     t.integer "fridge_item_id", null: false
     t.integer "tag_id", null: false
@@ -47,6 +47,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_07_032558) do
     t.string "creator"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "checked", default: false
+    t.boolean "dismissed", default: false
   end
 
   create_table "tags", force: :cascade do |t|

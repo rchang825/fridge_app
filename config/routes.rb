@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
-  resources :shopping_list_items
-  resources :shopping_items
+  resources :shopping_list_items do
+    member do
+      post :check_off_shopping_list_item
+      get :add_to_fridge
+      get :edited_add_to_fridge
+      post :decline_add_to_fridge
+    end
+  end
   resources :fridge_item_taggings
   resources :tags
   resources :groceries

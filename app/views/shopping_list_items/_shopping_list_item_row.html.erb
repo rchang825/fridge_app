@@ -1,0 +1,37 @@
+<turbo-frame id="shopping_list_item_<%=shopping_list_item.id%>">
+<div id="<%= dom_id shopping_list_item %>" style="display:flex" class="shopping_list_item <%=' checked_item_line' if shopping_list_item.checked %>">
+    <div>
+        <%= link_to check_off_shopping_list_item_shopping_list_item_path(shopping_list_item), data: { turbo_method: "post", turbo_frame: "shopping_list"} do %> 
+        <%= check_box_tag nil, nil, shopping_list_item.checked %>
+        <% end %>
+    </div>
+    <div>
+        <%= shopping_list_item.quantity %>
+        <%= " " + shopping_list_item.name %>
+    </div>
+    <% if shopping_list_item.checked %>
+        <% if !shopping_list_item.dismissed %>
+            <div>
+                Add Item to Fridge?
+                <%= link_to "Accept", add_to_fridge_shopping_list_item_path(shopping_list_item), data: { turbo_frame: "shopping_list" }%>
+                <%# create new fridge item %>
+                |
+                <%= link_to "Edit", edited_add_to_fridge_shopping_list_item_path(shopping_list_item), data: { turbo_frame: "_top" } %>
+                <%# create new fridge item and redirect to edit page for it%>
+                |
+                <%= link_to "Decline and Remove", decline_add_to_fridge_shopping_list_item_path(shopping_list_item), data: { turbo_method: "post", turbo_frame: "shopping_list" } %>
+                <%# destroys SLI, whole line disappears %>
+            </div>
+        
+        <% else %>
+            <div>
+                <em>Added to Fridge!</em>
+            </div>
+        <% end %>
+        </turbo-frame>
+    <% end %>
+    <div style="display: none">
+        <strong>Creator:</strong>
+        <%= shopping_list_item.creator %>
+    </div>
+</div>

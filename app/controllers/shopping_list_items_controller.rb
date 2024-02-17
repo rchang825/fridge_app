@@ -1,5 +1,6 @@
 class ShoppingListItemsController < ApplicationController
-  before_action :set_shopping_list_item, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :get_shopping_list_item, except: %i[ index new create ]
 
   # GET /shopping_list_items or /shopping_list_items.json
   def index
@@ -58,10 +59,42 @@ class ShoppingListItemsController < ApplicationController
     end
   end
 
+  def check_off_shopping_list_item
+    @shopping_list_item.update!(checked: !@shopping_list_item.checked)
+    redirect_to shopping_list_items_path
+  end
+
+  def add_to_fridge
+    set_fridge_item
+    redirect_to action: :index
+  end
+
+  def edited_add_to_fridge
+    fridge_item = set_fridge_item
+    redirect_to edit_fridge_item_path(fridge_item)
+  end
+
+  def decline_add_to_fridge
+    @shopping_list_item.destroy!
+    redirect_to shopping_list_items_path
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_shopping_list_item
+    def get_shopping_list_item
       @shopping_list_item = ShoppingListItem.find(params[:id])
+    end
+
+    def set_fridge_item
+      fridge_item_params = {
+        item_name: @shopping_list_item.name,
+        item_quantity: @shopping_list_item.quantity
+      }
+      fridge_item = ::FridgeItemBuilder.new.build(fridge_item_params, current_user)
+      fridge_item.save!
+      @shopping_list_item.update!(dismissed: true)
+      fridge_item
     end
 
     # Only allow a list of trusted parameters through.

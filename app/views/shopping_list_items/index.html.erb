@@ -3,19 +3,19 @@
   <%= link_to "+", new_shopping_list_item_path, class: "btn btn-primary btn-lg position-absolute top-0 end-0" %> 
   <h1>Shopping List</h1>
 
-  <div id="shopping_list_items">
-    <ul>
-      <% @shopping_list_items.each do |shopping_list_item| %>
-        <li>
-          <%= render shopping_list_item %>
-          <p> Bought? Yes | No </p>
-        </li>
-        <p>
-          <%= link_to "Show this shopping list item", shopping_list_item %>
-        </p>
-      <% end %>
-    </ul>
-  </div>
+  <turbo-frame id="shopping_list">
+    <div>
+      <ul class="unstyle_list">
+        <% @shopping_list_items.each do |shopping_list_item| %>
+          <li class="shopping_list_item_line">
+              <%= render "shopping_list_item_row", shopping_list_item: shopping_list_item %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </turbo-frame>
 </div>
-<%# 
-<%= link_to "New shopping list item", new_shopping_list_item_path %> 
+<%#         <p>
+          <%= link_to "Show this shopping list item", shopping_list_item %>
+<%#       </p>
+<%# link_to "New shopping list item", new_shopping_list_item_path %> 

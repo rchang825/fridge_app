@@ -1,5 +1,5 @@
 class FridgeItemsController < ApplicationController
-  before_action :set_fridge_item, except: %i[ index new create ]
+  before_action :get_fridge_item, except: %i[ index new create ]
   before_action :authenticate_user!, except: [:index]
   before_action :correct_user, only: [:edit, :update, :destroy]
   # GET /fridge_items or /fridge_items.json
@@ -39,13 +39,16 @@ class FridgeItemsController < ApplicationController
   def create
 
     #saves initial quantity to fridge item and grocery
-    @fridge_item = current_user.fridge_items.build(fridge_item_params)
-    item_name = @fridge_item.item_name
-    @fridge_item.grocery_name = item_name
-    @fridge_item.initial_quantity = @fridge_item.item_quantity
+    # @fridge_item = current_user.fridge_items.build(fridge_item_params)
+    # item_name = @fridge_item.item_name
+    # @fridge_item.grocery_name = item_name
+    # @fridge_item.initial_quantity = @fridge_item.item_quantity
 
-    #create new grocery if not already in database
-    Grocery.create!(name: item_name) if !Grocery.find_by(name:item_name)
+    # #create new grocery if not already in database
+    # Grocery.create!(name: item_name) if !Grocery.find_by(name:item_name)
+
+    @fridge_item = FridgeItemBuilder.new.build(fridge_item_params, current_user)
+
     #puts fridge_item_params.to_h.merge({grocery_name:item_name_param}).inspect
 
     #puts "FI:"
@@ -84,8 +87,8 @@ class FridgeItemsController < ApplicationController
     @fridge_item.disposed_quantity = @fridge_item.item_quantity
     #set item_quantity to 0 so that it is now visible in groceries tab
     @fridge_item.item_quantity = 0
-    #add ex fridge item to shopping list (create new shopping_list_item)
-    ShoppingListItem.create!(name: @fridge_item.item_name, quantity: @fridge_item.initial_quantity, creator: "auto")
+    #add ex fridge item to shopping list? (create new shopping_list_item)
+    #ShoppingListItem.create!(name: @fridge_item.item_name, quantity: @fridge_item.initial_quantity, creator: "auto")
     @fridge_item.save
 
     respond_to do |format|
@@ -93,21 +96,24 @@ class FridgeItemsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
   def correct_user
     #@fridge_item = current_user.fridge_items.find_by(id: params[:id])
-    set_fridge_item
+    get_fridge_item
     redirect_to fridge_items_path, notice: "Please sign in to view and edit your fridge items." if @fridge_item.nil?
   end
+
   def increment_quantity
     #@fridge_item = current_user.fridge_items.find_by(id: params[:id])
-    set_fridge_item
+    get_fridge_item
     @fridge_item.update!(item_quantity: @fridge_item.item_quantity + 1)
     redirect_to fridge_items_path
     #increment_counter(:item_quantity, @fridge_item)
   end
+
   def decrement_quantity
     #@fridge_item = current_user.fridge_items.find_by(id: params[:id])
-    set_fridge_item
+    get_fridge_item
     @fridge_item.item_quantity >= 1 ? @fridge_item.update!(item_quantity: @fridge_item.item_quantity - 1) : @fridge_item.update!(item_quantity: 0)
     # @fridge_item.update!(item_quantity: @fridge_item.item_quantity - 1)
     # if @fridge_item.item_quantity <= 0
@@ -117,31 +123,38 @@ class FridgeItemsController < ApplicationController
       redirect_to fridge_items_path
     # end
   end
+
   def inline_edit
-    set_fridge_item
+    get_fridge_item
   end
+
   def add_to_shopping_list
     set_shopping_list_item
   end
+
   def edited_add_to_shopping_list
     shopping_list_item = set_shopping_list_item
     redirect_to edit_shopping_list_item_path(shopping_list_item)
   end
+
   def decline_add_to_shopping_list
     @fridge_item.update!(dismissed: true)
     redirect_to fridge_items_path
   end
+
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_fridge_item
+    def get_fridge_item
       #@fridge_item = FridgeItem.find(params[:id])
       @fridge_item = current_user.fridge_items.find_by(id: params[:id])
     end
+
     def set_shopping_list_item
       shopping_list_item = ShoppingListItem.create!(name: @fridge_item.item_name, quantity: @fridge_item.initial_quantity, creator: "auto")
       @fridge_item.update!(dismissed: true)
       shopping_list_item
     end
+
     # Only allow a list of trusted parameters through.
     def fridge_item_params
       params.require(:fridge_item).permit(:item_name, :item_quantity, :expiration_date, :notes, :user_id)
