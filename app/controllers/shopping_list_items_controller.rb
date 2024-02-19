@@ -79,6 +79,17 @@ class ShoppingListItemsController < ApplicationController
     redirect_to shopping_list_items_path
   end
 
+  def undo_add_to_fridge
+    #find and destroy fridge item
+    #clears fridge_item_id column
+    #dismissed = false
+    #redirect back to index
+    fridge_item = FridgeItem.find(@shopping_list_item.fridge_item_id)
+    puts "fridge item: " + fridge_item.inspect
+    fridge_item.destroy!
+    @shopping_list_item.update!(dismissed: false, fridge_item_id:nil)
+    redirect_to action: :index
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -93,12 +104,12 @@ class ShoppingListItemsController < ApplicationController
       }
       fridge_item = ::FridgeItemBuilder.new.build(fridge_item_params, current_user)
       fridge_item.save!
-      @shopping_list_item.update!(dismissed: true)
+      @shopping_list_item.update!(dismissed: true, fridge_item_id: fridge_item.id)
       fridge_item
     end
 
     # Only allow a list of trusted parameters through.
     def shopping_list_item_params
-      params.require(:shopping_list_item).permit(:name, :quantity, :category)
+      params.require(:shopping_list_item).permit(:name, :quantity, :creator)
     end
 end

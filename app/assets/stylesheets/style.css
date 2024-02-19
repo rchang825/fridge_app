@@ -20,6 +20,9 @@ li.shopping_list_item_line {
 .checked_item_line {
     opacity:0.5;
 }
+.checked {
+    text-decoration: line-through;
+}
 .shopping_list_item div{
     padding: 2px;
 }

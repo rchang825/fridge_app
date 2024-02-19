@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       get :add_to_fridge
       get :edited_add_to_fridge
       post :decline_add_to_fridge
+      get :undo_add_to_fridge
     end
   end
   resources :fridge_item_taggings
