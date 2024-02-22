@@ -23,7 +23,7 @@
 <% else %>
   <tr id="<%= dom_id fridge_item %>">
     <td class="item_name">
-      <%= link_to fridge_item.item_name, edit_fridge_item_path(fridge_item) %>
+      <%= link_to fridge_item.item_name, edit_fridge_item_path(fridge_item), data: {turbo_frame: "_top"} %>
     </td>
     <td class="item_quantity">
       <turbo-frame id="fridge_item_row_<%=fridge_item.id%>">
