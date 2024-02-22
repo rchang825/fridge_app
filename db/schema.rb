@@ -11,9 +11,12 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_02_19_032111) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "fridge_item_taggings", force: :cascade do |t|
-    t.integer "fridge_item_id", null: false
-    t.integer "tag_id", null: false
+    t.bigint "fridge_item_id", null: false
+    t.bigint "tag_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["fridge_item_id"], name: "index_fridge_item_taggings_on_fridge_item_id"
