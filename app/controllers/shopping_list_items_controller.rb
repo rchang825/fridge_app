@@ -1,6 +1,7 @@
 class ShoppingListItemsController < ApplicationController
   before_action :authenticate_user!
   before_action :get_shopping_list_item, except: %i[ index new create ]
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
 
   # GET /shopping_list_items or /shopping_list_items.json
   def index
@@ -11,8 +12,10 @@ class ShoppingListItemsController < ApplicationController
 
     sort_key = sort_map[@sort_param&.to_sym]
 
-    @shopping_list_items = ShoppingListItem.all
-    @shopping_list_items = @shopping_list_items.order(sort_key) if sort_key
+    if current_user.present?
+      @shopping_list_items = ShoppingListItem.where(user_id: current_user.id)
+      @shopping_list_items = @shopping_list_items.order(sort_key) if sort_key
+    end
   end
 
   # GET /shopping_list_items/1 or /shopping_list_items/1.json
@@ -21,7 +24,7 @@ class ShoppingListItemsController < ApplicationController
 
   # GET /shopping_list_items/new
   def new
-    @shopping_list_item = ShoppingListItem.new
+    @shopping_list_item = current_user.shopping_list_items.build
   end
 
   # GET /shopping_list_items/1/edit
@@ -30,7 +33,7 @@ class ShoppingListItemsController < ApplicationController
 
   # POST /shopping_list_items or /shopping_list_items.json
   def create
-    @shopping_list_item = ShoppingListItem.new(shopping_list_item_params)
+    @shopping_list_item = current_user.shopping_list_items.build(shopping_list_item_params)
 
     respond_to do |format|
       if @shopping_list_item.save
@@ -65,6 +68,11 @@ class ShoppingListItemsController < ApplicationController
       format.html { redirect_to shopping_list_items_url, notice: "Shopping list item was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def correct_user
+    get_shopping_list_item
+    redirect_to shopping_list_items_path, notice: "Please sign in to view and edit your shopping list." if @shopping_list_item.nil?
   end
 
   def check_off_shopping_list_item
@@ -118,6 +126,6 @@ class ShoppingListItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def shopping_list_item_params
-      params.require(:shopping_list_item).permit(:name, :quantity, :creator)
+      params.require(:shopping_list_item).permit(:name, :quantity, :creator, :user_id)
     end
 end

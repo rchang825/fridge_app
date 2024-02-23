@@ -69,9 +69,7 @@ class FridgeItemsController < ApplicationController
     respond_to do |format|
       if @fridge_item.update(fridge_item_params)
         @fridge_item.update!(item_quantity: 0) if @fridge_item.item_quantity < 0
-        if @fridge_item.item_quantity <= 0
-          ShoppingListItem.create!(name: @fridge_item.item_name, quantity: @fridge_item.initial_quantity, creator: "auto")
-        end
+
         format.html { redirect_to fridge_items_path }
         format.json { render :show, status: :ok, location: @fridge_item }
       else
@@ -150,13 +148,13 @@ class FridgeItemsController < ApplicationController
     end
 
     def set_shopping_list_item
-      shopping_list_item = ShoppingListItem.create!(name: @fridge_item.item_name, quantity: @fridge_item.initial_quantity, creator: "auto")
+      shopping_list_item = ShoppingListItem.create!(name: @fridge_item.item_name, quantity: @fridge_item.initial_quantity, creator: "auto", user_id: current_user.id)
       @fridge_item.update!(dismissed: true)
       shopping_list_item
     end
 
     # Only allow a list of trusted parameters through.
     def fridge_item_params
-      params.require(:fridge_item).permit(:item_name, :item_quantity, :expiration_date, :notes, :user_id)
+      params.require(:fridge_item).permit(:item_name, :item_quantity, :expiration_date, :notes, :user_id, :grocery_id)
     end
 end
