@@ -1,9 +1,11 @@
 class GroceriesController < ApplicationController
-  before_action :set_grocery, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!
+  before_action :get_grocery, except: %i[ index new create ]
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   # GET /groceries or /groceries.json
   def index
-    @groceries = Grocery.all
+    @groceries = current_user.groceries if current_user.present?
   end
 
   # GET /groceries/1 or /groceries/1.json
@@ -13,7 +15,7 @@ class GroceriesController < ApplicationController
 
   # GET /groceries/new
   def new
-    @grocery = Grocery.new
+    @grocery = current_user.groceries.build
   end
 
   # GET /groceries/1/edit
@@ -22,7 +24,7 @@ class GroceriesController < ApplicationController
 
   # POST /groceries or /groceries.json
   def create
-    @grocery = Grocery.new(grocery_params)
+    @grocery = current_user.groceries.build(grocery_params)
 
     respond_to do |format|
       if @grocery.save
@@ -58,14 +60,19 @@ class GroceriesController < ApplicationController
     end
   end
 
+  def correct_user
+    get_grocery
+    redirect_to groceries_path, notice: "Please sign in to view your groceries." if @grocery.nil?
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_grocery
-      @grocery = Grocery.find(params[:id])
+    def get_grocery
+      @grocery = current_user.groceries.find_by(id: params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def grocery_params
-      params.require(:grocery).permit(:name)
+      params.require(:grocery).permit(:name, :user_id)
     end
 end

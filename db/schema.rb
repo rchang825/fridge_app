@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_19_032111) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_23_042339) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -35,6 +35,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_032111) do
     t.decimal "initial_quantity"
     t.decimal "disposed_quantity"
     t.boolean "dismissed", default: false
+    t.integer "grocery_id"
+    t.index ["grocery_id"], name: "index_fridge_items_on_grocery_id"
     t.index ["user_id"], name: "index_fridge_items_on_user_id"
   end
 
@@ -42,6 +44,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_032111) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_groceries_on_user_id"
   end
 
   create_table "shopping_list_items", force: :cascade do |t|
@@ -53,7 +57,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_19_032111) do
     t.boolean "checked", default: false
     t.boolean "dismissed", default: false
     t.integer "fridge_item_id"
+    t.integer "user_id"
     t.index ["fridge_item_id"], name: "index_shopping_list_items_on_fridge_item_id"
+    t.index ["user_id"], name: "index_shopping_list_items_on_user_id"
   end
 
   create_table "tags", force: :cascade do |t|

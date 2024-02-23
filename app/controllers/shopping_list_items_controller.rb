@@ -4,7 +4,15 @@ class ShoppingListItemsController < ApplicationController
 
   # GET /shopping_list_items or /shopping_list_items.json
   def index
+    sort_map = {
+      checked: "checked"
+    }
+    @sort_param = params[:sort]
+
+    sort_key = sort_map[@sort_param&.to_sym]
+
     @shopping_list_items = ShoppingListItem.all
+    @shopping_list_items = @shopping_list_items.order(sort_key) if sort_key
   end
 
   # GET /shopping_list_items/1 or /shopping_list_items/1.json

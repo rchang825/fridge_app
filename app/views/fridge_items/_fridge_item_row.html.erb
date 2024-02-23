@@ -1,5 +1,4 @@
 <% if fridge_item.item_quantity <= 0 %>
-    <%= puts fridge_item.item_name + " should be rendered in red" %>
   <tr id="<%= dom_id fridge_item %>" class="undismissed_row">
     <td class="item_name">
       <%= fridge_item.item_name %>
@@ -45,7 +44,7 @@
       <%= fridge_item.notes %>
     </td>
     <td class="extra">
-      <%= link_to "Go To Grocery", 'groceries/' + fridge_item.grocery_name, data: { turbo_frame: "_top" }  %>
+      <%= link_to "Go To Grocery", 'groceries/' + fridge_item.grocery_id.to_s, data: { turbo_frame: "_top" }  %>
     </td>
     <td class="extra">
       <%= button_to "-", fridge_item, method: :delete, class: "btn btn-danger btn-sm" %>

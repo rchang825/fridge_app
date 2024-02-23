@@ -12,7 +12,7 @@ class FridgeItemsController < ApplicationController
     @sort_param = params[:sort]
 
     sort_key = sort_map[@sort_param&.to_sym]
-    puts sort_key
+    #puts sort_key
 
     if current_user.present?
       #@fridge_items = current_user.fridge_items.where("item_quantity > 0")

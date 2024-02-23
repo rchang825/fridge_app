@@ -7,7 +7,16 @@ class FridgeItemBuilder
     fridge_item.initial_quantity = fridge_item.item_quantity
 
     #create new grocery if not already in database
-    Grocery.create!(name: item_name) if !Grocery.find_by(name:item_name)
+    # grocery = current_user.groceries.find_by(name:item_name)
+    # if grocery.blank?
+    #   grocery = Grocery.create!(name: item_name, user_id: current_user.id)
+    # end
+    # fridge_item.grocery_id = grocery.id
+
+
+
+    grocery = Grocery.find_or_create_by(name: item_name, user_id: current_user.id)
+    fridge_item.grocery_id = grocery.id
     fridge_item
   end
 end
