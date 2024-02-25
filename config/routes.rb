@@ -8,7 +8,6 @@ Rails.application.routes.draw do
       get :undo_add_to_fridge
     end
   end
-  resources :fridge_item_taggings
   resources :tags
   resources :groceries
   devise_for :users
