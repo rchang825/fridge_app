@@ -3,5 +3,12 @@
     <strong>Name:</strong>
     <%= grocery.name %>
   </p>
-
+  <p>
+    <strong>Tags:</strong>
+    <% grocery.tags.each_with_index do |tag, i| %>
+      <%= ', ' unless i == 0 %>
+      <%= link_to tag.name, tag %>
+    <% end %>
+  </p>
+  
 </div>

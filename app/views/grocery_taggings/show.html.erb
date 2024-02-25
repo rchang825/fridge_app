@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @grocery_tagging %>
+
+<div>
+  <%= link_to "Edit this grocery tagging", edit_grocery_tagging_path(@grocery_tagging) %> |
+  <%= link_to "Back to grocery taggings", grocery_taggings_path %>
+
+  <%= button_to "Destroy this grocery tagging", @grocery_tagging, method: :delete %>
+</div>

@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Grocery taggings</h1>
+
+<div id="grocery_taggings">
+  <% @grocery_taggings.each do |grocery_tagging| %>
+    <%= render grocery_tagging %>
+    <p>
+      <%= link_to "Show this grocery tagging", grocery_tagging %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New grocery tagging", new_grocery_tagging_path %>

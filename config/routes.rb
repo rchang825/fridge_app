@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :grocery_taggings
   resources :shopping_list_items do
     member do
       post :check_off_shopping_list_item

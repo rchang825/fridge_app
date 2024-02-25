@@ -1,0 +1,2 @@
+module GroceryTaggingsHelper
+end
