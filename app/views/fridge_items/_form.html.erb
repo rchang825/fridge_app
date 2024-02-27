@@ -28,7 +28,11 @@
 
   <div>
     <%= form.label :notes, style: "display: block" %>
-    <%= form.text_field(:notes, onchange: "if(false) {alert('Please enter a valid date YYYY/MM/DD'); }") %>
+    <%= form.text_field :notes %>
+  </div>
+  <div>
+    <%= form.label :fridge_tags, style: "display: block" %>
+    <%= form.text_field :fridge_tags %>
   </div>
   <div>
     <%= form.label :user_id, style: "display: none"%>

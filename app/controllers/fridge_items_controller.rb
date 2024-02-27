@@ -68,6 +68,7 @@ class FridgeItemsController < ApplicationController
   def update
     respond_to do |format|
       if @fridge_item.update(fridge_item_params)
+        #prevent quantity from going below 0
         @fridge_item.update!(item_quantity: 0) if @fridge_item.item_quantity < 0
 
         format.html { redirect_to fridge_items_path }
@@ -155,6 +156,6 @@ class FridgeItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def fridge_item_params
-      params.require(:fridge_item).permit(:item_name, :item_quantity, :expiration_date, :notes, :user_id, :grocery_id)
+      params.require(:fridge_item).permit(:item_name, :item_quantity, :expiration_date, :notes, :user_id, :grocery_id, :fridge_tags)
     end
 end
