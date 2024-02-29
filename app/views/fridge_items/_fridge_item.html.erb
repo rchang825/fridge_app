@@ -19,5 +19,8 @@
 </p>
 <p>
   <strong>Tags:</strong>
-  <%= fridge_item.tags %>
+  <%= fridge_item.fridge_tags %>
+</p>
+<p>
+  <%= link_to "Go to Grocery", grocery_path(fridge_item.grocery_id) %>
 </p>

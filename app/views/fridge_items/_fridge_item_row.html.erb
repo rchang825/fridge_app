@@ -40,17 +40,20 @@
     <td class="item_expiration_date">
       <%= fridge_item.expiration_date %>
     </td>
+    <td class="show">
+      <%= link_to "...", fridge_item_path(fridge_item), data: { turbo_frame: "_top" } %>
+    </td>
     <td class="item_notes extra">
       <%= fridge_item.notes %>
     </td>
     <td class="item_tags extra">
       <% fridge_item.tags.each_with_index do |tag, i| %>
         <%= ', ' unless i == 0 %>
-        <%= link_to tag.name %>
+        <%= link_to tag.name, url_for(tag: tag.id) %>
       <% end %>
     </td>
     <td class="extra">
-      <%= link_to "Go To Grocery", 'groceries/' + fridge_item.grocery_id.to_s, data: { turbo_frame: "_top" }  %>
+      <%= link_to "Go To Grocery", grocery_path(fridge_item.grocery_id), data: { turbo_frame: "_top" }  %>
     </td>
     <td>
       <%= button_to "-", fridge_item, method: :delete, class: "btn btn-danger btn-sm" %>

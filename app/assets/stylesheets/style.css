@@ -8,6 +8,12 @@ html {
     }
 }
 
+@media only screen and (min-width: 769px) {
+    .show {
+        display: none;
+    }
+}
+
 tr.undismissed_row td {
     background-color: pink
 }

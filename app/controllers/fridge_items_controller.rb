@@ -19,6 +19,12 @@ class FridgeItemsController < ApplicationController
       @fridge_items = current_user.fridge_items.where(dismissed: false)
       @fridge_items = @fridge_items.order(sort_key) if sort_key
       #@fridge_items = current_user.fridge_items.filter{|item| item.item_quantity > 0} if current_user.present?
+      tag = params[:tag]
+      if tag.present?
+        @fridge_items = @fridge_items.joins(:tags).includes(:tags).to_a.filter do |fridge_item|
+          fridge_item.tags.map(&:id).include?(tag.to_i)
+        end
+      end
     end
   end
 
