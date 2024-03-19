@@ -3,7 +3,7 @@
   <%= link_to "+", new_shopping_list_item_path, class: "btn btn-primary btn-lg position-absolute top-0 end-0" %> 
   <h1>Shopping List</h1>
   <% if @sort_param == "checked" %>
-    <%= link_to "Sort by add date" %>
+    <%= link_to "Sort by checked" %>
   <% else %>
     <%= link_to "Sort by checked", url_for(sort: "checked") %>
   <% end %>

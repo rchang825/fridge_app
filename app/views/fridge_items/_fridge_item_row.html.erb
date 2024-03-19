@@ -28,12 +28,12 @@
       <turbo-frame id="fridge_item_row_<%=fridge_item.id%>">
         <div style="display: inline-flex">
         <% if fridge_item.item_quantity > 0 && fridge_item.item_quantity <= 1 %>
-          <%= button_to "-", decrement_quantity_fridge_item_path(fridge_item), data: { turbo_frame: "fridge_items_list" } %>
+          <%= button_to "-", decrement_quantity_fridge_item_path(fridge_item), {data: { turbo_frame: "fridge_items_list" }, class: "btn btn-sm quantity-btn"} %>
         <% else %>
-          <%= button_to "-", decrement_quantity_fridge_item_path(fridge_item) %>
+          <%= button_to "-", decrement_quantity_fridge_item_path(fridge_item), {class: "btn btn-sm quantity-btn"}  %>
         <% end %>
-        <%= link_to fridge_item.item_quantity, inline_edit_fridge_item_path(fridge_item) %>
-        <%= button_to "+", increment_quantity_fridge_item_path(fridge_item), data: { turbo_method: "post" } %>
+        <%= link_to fridge_item.item_quantity, inline_edit_fridge_item_path(fridge_item), { class: "px-1 lh-lg" } %>
+        <%= button_to "+", increment_quantity_fridge_item_path(fridge_item), {data: { turbo_method: "post"}, class: "btn btn-sm quantity-btn"} %>
         </div>
       </turbo-frame>
     </td>
@@ -41,7 +41,7 @@
       <%= fridge_item.expiration_date %>
     </td>
     <td class="show">
-      <%= link_to "...", fridge_item_path(fridge_item), data: { turbo_frame: "_top" } %>
+      <%= button_to "...", fridge_item_path(fridge_item), data: { turbo_frame: "_top" }, method: :get %>
     </td>
     <td class="item_notes extra">
       <%= fridge_item.notes %>

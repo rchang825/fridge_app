@@ -72,10 +72,17 @@ class FridgeItemsController < ApplicationController
 
   # PATCH/PUT /fridge_items/1 or /fridge_items/1.json
   def update
+    tag_param = fridge_item_params.extract!(:fridge_tags)
+    tag_strings = tag_param["fridge_tags"]&.split || []
     respond_to do |format|
       if @fridge_item.update(fridge_item_params)
         #prevent quantity from going below 0
         @fridge_item.update!(item_quantity: 0) if @fridge_item.item_quantity < 0
+        fridge_tags = []
+        tag_strings.each do |tag|
+          fridge_tags.push(Tag.find_or_create_by(name: tag))
+        end
+        @fridge_item.grocery.tags = fridge_tags
 
         format.html { redirect_to fridge_items_path }
         format.json { render :show, status: :ok, location: @fridge_item }
@@ -162,6 +169,8 @@ class FridgeItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def fridge_item_params
-      params.require(:fridge_item).permit(:item_name, :item_quantity, :expiration_date, :notes, :user_id, :grocery_id, :fridge_tags)
+      @fridge_item_params ||= params
+        .require(:fridge_item)
+        .permit(:item_name, :item_quantity, :expiration_date, :notes, :user_id, :grocery_id, :fridge_tags)
     end
 end

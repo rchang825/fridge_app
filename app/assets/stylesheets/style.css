@@ -29,6 +29,10 @@ li.shopping_list_item_line {
 .checked {
     text-decoration: line-through;
 }
-.shopping_list_item div{
+.shopping_list_item div {
     padding: 2px;
+}
+.quantity-btn {
+    background-color: rgb(111, 157, 197) !important;
+    border: blue !important;
 }
