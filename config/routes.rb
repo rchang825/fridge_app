@@ -22,8 +22,10 @@ Rails.application.routes.draw do
       post :decline_add_to_shopping_list
     end
   end
-  resources :meals
-  resources :ingredients
+  resources :meals do
+    resources :ingredients
+  end
+  resources :ingredients, :only => [ :index, :delete ]
   get 'home/about'
   root 'fridge_items#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
