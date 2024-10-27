@@ -7,4 +7,5 @@ class User < ApplicationRecord
           has_many :groceries, dependent: :destroy
           has_many :shopping_list_items, dependent: :destroy
           has_many :tags, dependent: :destroy
+          has_many :meals
 end

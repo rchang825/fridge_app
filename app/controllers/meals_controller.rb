@@ -8,7 +8,7 @@ class MealsController < ApplicationController
   end
 
   def new
-    @meal = current_user.meal.build
+    @meal = current_user.meals.build
   end
 
   def edit

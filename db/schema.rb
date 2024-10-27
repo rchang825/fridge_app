@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_02_29_004204) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_25_223121) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -46,6 +46,25 @@ ActiveRecord::Schema[7.1].define(version: 2024_02_29_004204) do
     t.integer "tag_id"
     t.index ["grocery_id", "tag_id"], name: "index_grocery_taggings_on_grocery_id_and_tag_id"
     t.index ["tag_id", "grocery_id"], name: "index_grocery_taggings_on_tag_id_and_grocery_id"
+  end
+
+  create_table "ingredients", force: :cascade do |t|
+    t.string "name"
+    t.decimal "quantity"
+    t.string "notes"
+    t.bigint "meal_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["meal_id"], name: "index_ingredients_on_meal_id"
+  end
+
+  create_table "meals", force: :cascade do |t|
+    t.string "name"
+    t.string "notes"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_meals_on_user_id"
   end
 
   create_table "shopping_list_items", force: :cascade do |t|
