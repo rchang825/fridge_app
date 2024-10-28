@@ -5,19 +5,14 @@
   </p>
 
   <p>
-    <strong>Notes:</strong>
-    <%= meal.notes %>
-  </p>
-
-  <p>
     <strong>Ingredients:</strong>
     <ul>
     <% meal.ingredients.each do |ing| %>
       <li>
-      <%= render "ingredients/meal_ingredient", ingredient: ing %>
+      <%= ing.name %>
       </li>
     <% end %>
-    <ul>
+    </ul>
   </p>
 
 </div>

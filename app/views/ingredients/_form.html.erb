@@ -27,8 +27,8 @@
   </div>
 
   <div>
-    <%= form.label :meal_id, style: "display: block" %>
-    <%= form.text_field :meal_id, value: @meal.name %>
+    <%# <%= form.label :meal_id, style: "display: block" %> 
+    <%= form.hidden_field :meal_id, value: @meal.id %>
   </div>
 
   <div>

@@ -5,6 +5,6 @@
 <br>
 
 <div>
-  <%= link_to "Show this ingredient", @ingredient %> |
+  <%= link_to "Show this ingredient", meal_ingredient_path(meal: @ingredient.meal, ingredient: @ingredient) %> |
   <%= link_to "Back to ingredients", ingredients_path %>
 </div>

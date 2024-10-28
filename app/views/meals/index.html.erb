@@ -4,7 +4,7 @@
 
 <div id="meals">
   <% @meals.each do |meal| %>
-    <%= render meal %>
+    <%= render "meal_blurb", meal: meal %>
     <p>
       <%= link_to "Show this meal", meal %>
     </p>

@@ -36,3 +36,7 @@ li.shopping_list_item_line {
     background-color: rgb(111, 157, 197) !important;
     border: blue !important;
 }
+.fridge-nav {
+    display: flex;
+    justify-content: space-between;
+}

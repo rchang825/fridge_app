@@ -5,6 +5,7 @@
 <div>
   <%= link_to "Edit this ingredient", edit_meal_ingredient_path(@ingredient) %> |
   <%= link_to "Back to ingredients", ingredients_path %>
+  <%= link_to "Back to meal", meal_path(@ingredient.meal)%>
 
   <%= button_to "Destroy this ingredient", meal_ingredient_path, method: :delete %>
 </div>
