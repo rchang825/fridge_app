@@ -4,7 +4,7 @@
 <div class="position-relative">
   <div class="fridge-nav">
     <h1>Fridge items</h1>
-    <%= button_to "Make a Meal", meals_path(from_fridge: true, meal: {name: Meal::DEFAULT_NAME}), class: "btn btn-primary btn-lg" %>
+    <%= button_to "Make a Meal", meals_path(from_fridge: true, meal: {name: Meal::DEFAULT_NAME}), class: "btn btn-primary btn-lg" unless @meal.present? %>
     <%= link_to "+", new_fridge_item_path, class: "btn btn-primary btn-lg" %> 
   </div>
   <h3><%= "Making meal #{@meal.id}: #{@meal.name}" unless @meal.nil? %></h3>

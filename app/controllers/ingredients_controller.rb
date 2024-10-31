@@ -25,8 +25,8 @@ class IngredientsController < ApplicationController
 
   # POST /ingredients or /ingredients.json
   def create
-    @from_fridge = ingredient_params[:from_fridge]
-    @ingredient = @meal.ingredients.new(ingredient_params.reject {|key, value| key == "from_fridge" })
+    @from_fridge = params[:from_fridge]
+    @ingredient = @meal.ingredients.new(ingredient_params)
     respond_to do |format|
       if @ingredient.save
         if @from_fridge
@@ -75,6 +75,6 @@ class IngredientsController < ApplicationController
     end
     # Only allow a list of trusted parameters through.
     def ingredient_params
-      params.require(:ingredient).permit(:name, :quantity, :notes, :meal_id, :from_fridge)
+      params.require(:ingredient).permit(:name, :quantity, :notes, :meal_id)
     end
 end
