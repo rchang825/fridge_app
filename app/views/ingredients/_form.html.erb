@@ -30,7 +30,9 @@
     <%# <%= form.label :meal_id, style: "display: block" %> 
     <%= form.hidden_field :meal_id, value: @meal.id %>
   </div>
-
+  <div>
+    <%= form.hidden_field :from_fridge, value: @from_fridge %>
+  </div>
   <div>
     <%= form.submit %>
   </div>

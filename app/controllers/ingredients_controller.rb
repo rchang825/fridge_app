@@ -14,6 +14,9 @@ class IngredientsController < ApplicationController
   # GET /ingredients/new
   def new
     @ingredient = @meal.ingredients.new
+    if params[:name].present?
+      @ingredient.name = params[:name]
+    end
   end
 
   # GET /ingredients/1/edit
@@ -22,12 +25,16 @@ class IngredientsController < ApplicationController
 
   # POST /ingredients or /ingredients.json
   def create
-    @ingredient = @meal.ingredients.new(ingredient_params)
-
+    @from_fridge = ingredient_params[:from_fridge]
+    @ingredient = @meal.ingredients.new(ingredient_params.reject {|key, value| key == "from_fridge" })
     respond_to do |format|
       if @ingredient.save
-        format.html { redirect_to meal_ingredient_path(@meal, @ingredient), notice: "Ingredient was successfully created." }
-        format.json { render :show, status: :created, location: @ingredient }
+        if @from_fridge
+          format.html { redirect_to fridge_items_path(meal: @meal), notice: "Ingredient was successfully created." }
+        else
+          format.html { redirect_to meal_ingredient_path(@meal, @ingredient), notice: "From fridge failed, Ingredient was successfully created." }
+          format.json { render :show, status: :created, location: @ingredient }
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @ingredient.errors, status: :unprocessable_entity }
@@ -68,6 +75,6 @@ class IngredientsController < ApplicationController
     end
     # Only allow a list of trusted parameters through.
     def ingredient_params
-      params.require(:ingredient).permit(:name, :quantity, :notes, :meal_id)
+      params.require(:ingredient).permit(:name, :quantity, :notes, :meal_id, :from_fridge)
     end
 end

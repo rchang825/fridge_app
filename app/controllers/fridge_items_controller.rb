@@ -26,6 +26,10 @@ class FridgeItemsController < ApplicationController
         end
       end
     end
+    if params[:meal].present?
+      @meal = Meal.find(params[:meal])
+    end
+
   end
 
   # GET /fridge_items/1 or /fridge_items/1.json
@@ -171,6 +175,6 @@ class FridgeItemsController < ApplicationController
     def fridge_item_params
       @fridge_item_params ||= params
         .require(:fridge_item)
-        .permit(:item_name, :item_quantity, :expiration_date, :notes, :user_id, :grocery_id, :fridge_tags)
+        .permit(:item_name, :item_quantity, :expiration_date, :notes, :user_id, :grocery_id, :fridge_tags, :meal)
     end
 end

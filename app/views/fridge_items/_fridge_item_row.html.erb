@@ -43,6 +43,11 @@
     <td class="show">
       <%= button_to "...", fridge_item_path(fridge_item), data: { turbo_frame: "_top" }, method: :get %>
     </td>
+    <% if @meal %>
+    <td>
+      <%= link_to "Add to meal", new_meal_ingredient_path(meal_id: @meal.id, name: fridge_item.item_name, from_fridge: true), data: {turbo_frame: "_top"} %>
+    </td>
+    <% else %>
     <td class="item_notes extra">
       <%= fridge_item.notes %>
     </td>
@@ -55,6 +60,7 @@
     <td class="extra">
       <%= link_to "Go To Grocery", grocery_path(fridge_item.grocery_id), data: { turbo_frame: "_top" }  %>
     </td>
+    <% end %>
     <td>
       <%= button_to "-", fridge_item, method: :delete, class: "btn btn-danger btn-sm" %>
     </td>

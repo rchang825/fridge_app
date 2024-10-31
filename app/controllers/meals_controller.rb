@@ -21,12 +21,17 @@ class MealsController < ApplicationController
 
   # POST /meals or /meals.json
   def create
+
     @meal = current_user.meals.new(meal_params)
 
     respond_to do |format|
       if @meal.save
-        format.html { redirect_to meal_url(@meal), notice: "Meal was successfully created." }
-        format.json { render :show, status: :created, location: @meal }
+        if params[:from_fridge]
+          format.html { redirect_to fridge_items_path(meal: @meal)}
+        else
+          format.html { redirect_to meal_url(@meal), notice: "Meal was successfully created." }
+          format.json { render :show, status: :created, location: @meal }
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @meal.errors, status: :unprocessable_entity }
@@ -61,6 +66,9 @@ class MealsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_meal
       @meal = Meal.find(params[:id])
+    end
+    def set_fridge_items
+      @fridge_items = current_user.fridge_items.where(dismissed: false)
     end
 
     # Only allow a list of trusted parameters through.
