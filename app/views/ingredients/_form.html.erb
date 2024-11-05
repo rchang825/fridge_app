@@ -31,6 +31,6 @@
     <%= form.hidden_field :meal_id, value: @meal.id %>
   </div>
   <div>
-    <%= form.submit %>
+    <%= form.submit data: { turbo_frame: "fridge_items_list" } %>
   </div>
 <% end %>

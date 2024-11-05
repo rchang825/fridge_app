@@ -17,6 +17,9 @@ class IngredientsController < ApplicationController
     if params[:name].present?
       @ingredient.name = params[:name]
     end
+    if params[:fridge_item].present?
+      @fridge_item = FridgeItem.find(params[:fridge_item])
+    end
   end
 
   # GET /ingredients/1/edit

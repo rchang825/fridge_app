@@ -1,9 +1,10 @@
-<h1>New ingredient</h1>
+<turbo-frame id="fridge_item_row_<%=@fridge_item.id%>">
+  <h1>New ingredient</h1>
+  <%= render "form", ingredient: @ingredient %>
 
-<%= render "form", ingredient: @ingredient %>
+  <br>
 
-<br>
-
-<div>
-  <%= link_to "Back to ingredients", ingredients_path %>
-</div>
+  <div>
+    <%= link_to "Back to ingredients", ingredients_path %>
+  </div>
+</turbo-frame>
