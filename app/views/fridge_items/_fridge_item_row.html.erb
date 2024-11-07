@@ -9,14 +9,14 @@
     <td>Add Item to Shopping List?</td>
     <td>
       <turbo-frame id="fridge_item_accept_<%=fridge_item.id%>">
-        <%= link_to "Accept", add_to_shopping_list_fridge_item_path(fridge_item), data: { turbo_method: "post"} %>
+        <%= link_to "Accept", add_to_shopping_list_fridge_item_path(fridge_item, meal: @meal&.id), data: { turbo_method: "post"} %>
       </turbo-frame>
     </td>
     <td>
       <%= link_to "Edit", edited_add_to_shopping_list_fridge_item_path(fridge_item), data: { turbo_frame: "_top" }  %>
     </td>
     <td>
-      <%= link_to "Decline", decline_add_to_shopping_list_fridge_item_path(fridge_item), data: { turbo_method: "post", turbo_frame: "fridge_items_list"} %>
+      <%= link_to "Decline", decline_add_to_shopping_list_fridge_item_path(fridge_item, meal: @meal&.id), data: { turbo_method: "post", turbo_frame: "fridge_items_list"} %>
     </td>
   </tr>
 <% else %>
@@ -56,16 +56,17 @@
       <td class="extra">
         <%= link_to "Go To Grocery", grocery_path(fridge_item.grocery_id), data: { turbo_frame: "_top" }  %>
       </td>
-    <% end %>
       <td>
         <%= button_to "-", fridge_item, method: :delete, class: "btn btn-danger btn-sm" %>
       </td>
+    <% end %>
+
     <% if @meal.present? %>
       <td>
         <turbo-frame id="fridge_item_row_<%=fridge_item.id%>">
-          <% ingredient = Ingredient.find_by(meal_id: @meal.id, name: fridge_item.item_name) %>
+          <% ingredient = @meal.ingredients.find_by(source_fridge_item_id: fridge_item.id) %>
           <% if ingredient.nil? %>
-            <%= link_to "Add to meal", new_meal_ingredient_path(meal_id: @meal.id, fridge_item: fridge_item.id, name: fridge_item.item_name, from_fridge: true) %>
+            <%= link_to "Add to meal", new_meal_ingredient_path(meal_id: @meal.id, fridge_item: fridge_item.id, name: fridge_item.item_name, notes: fridge_item.notes, source_fridge_item_id: fridge_item.id, from_fridge: true) %>
           <% else %>
             <em>Added to meal!</em>
           <% end %>

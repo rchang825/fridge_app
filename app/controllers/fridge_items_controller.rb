@@ -2,6 +2,7 @@ class FridgeItemsController < ApplicationController
   before_action :get_fridge_item, except: %i[ index new create ]
   before_action :authenticate_user!, except: [:index]
   before_action :correct_user, only: [:edit, :update, :destroy]
+  before_action :get_meal
   # GET /fridge_items or /fridge_items.json
 
   def index
@@ -26,9 +27,7 @@ class FridgeItemsController < ApplicationController
         end
       end
     end
-    if params[:meal].present?
-      @meal = Meal.find(params[:meal])
-    end
+
 
   end
 
@@ -155,7 +154,7 @@ class FridgeItemsController < ApplicationController
 
   def decline_add_to_shopping_list
     @fridge_item.update!(dismissed: true)
-    redirect_to fridge_items_path
+    redirect_to fridge_items_path(meal: @meal&.id)
   end
 
   private
@@ -170,7 +169,11 @@ class FridgeItemsController < ApplicationController
       @fridge_item.update!(dismissed: true)
       shopping_list_item
     end
-
+    def get_meal
+      if params[:meal].present?
+        @meal = Meal.find(params[:meal])
+      end
+    end
     # Only allow a list of trusted parameters through.
     def fridge_item_params
       @fridge_item_params ||= params

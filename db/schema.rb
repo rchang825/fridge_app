@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_25_223121) do
+ActiveRecord::Schema[7.1].define(version: 2024_11_07_043529) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,7 +55,9 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_25_223121) do
     t.bigint "meal_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "source_fridge_item_id"
     t.index ["meal_id"], name: "index_ingredients_on_meal_id"
+    t.index ["source_fridge_item_id"], name: "index_ingredients_on_source_fridge_item_id"
   end
 
   create_table "meals", force: :cascade do |t|
@@ -102,4 +104,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_25_223121) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "ingredients", "fridge_items", column: "source_fridge_item_id"
 end

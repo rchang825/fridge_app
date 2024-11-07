@@ -22,7 +22,7 @@ class FridgeItemBuilder
     #turn fridge_item_params.fridge_tags into an array of strings (.split), then find or create new Tags and associate them with FI.grocery.tags
     tag_strings = fridge_tags["fridge_tags"]&.split || []
     tag_strings.each do |tag|
-      fridge_tag = Tag.find_or_create_by(name: tag)
+      fridge_tag = Tag.find_or_create_by!(name: tag, user: current_user )
       #add to tags if not already in tags
       fridge_item.grocery.tags << fridge_tag if !fridge_item.tags.include?(fridge_tag)
     end

@@ -3,13 +3,16 @@
 <% if user_signed_in? %> 
 <div> 
 <div class="position-relative">
-  <div class="fridge-nav">
-    <h1>Fridge items</h1>
-    <%= button_to "Make a Meal", meals_path(from_fridge: true, meal: {name: Meal::DEFAULT_NAME}), { data: { turbo_frame: "fridge_items_list" }, class: "btn btn-primary btn-lg" } unless @meal.present? %>
-    <%= link_to "+", new_fridge_item_path, class: "btn btn-primary btn-lg" %>  
-  </div>
-  
   <turbo-frame id="fridge_items_list" target="_top">
+    <div class="fridge-nav">
+      <h1>Fridge items</h1>
+      <% if @meal.present?%>
+        <%= link_to "Finish Meal", edit_meal_path(@meal), { data: { turbo_frame: "_top"}, class: "btn btn-primary btn-lg" } %>
+      <% else %>
+        <%= button_to "Make a Meal", meals_path(from_fridge: true, meal: {name: Meal::DEFAULT_NAME}), { data: { turbo_frame: "fridge_items_list", turbo_action: "advance" }, class: "btn btn-primary btn-lg" } %>
+      <% end %>
+      <%= link_to "+", new_fridge_item_path, class: "btn btn-primary btn-lg" %>  
+    </div>
     <% if @meal.present? %>
       <h3><%= "Making meal #{@meal.id}: "%>
       <%= link_to "#{@meal.name}", meal_path(@meal.id) %></h3>

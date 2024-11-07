@@ -17,8 +17,11 @@ class IngredientsController < ApplicationController
     if params[:name].present?
       @ingredient.name = params[:name]
     end
-    if params[:fridge_item].present?
-      @fridge_item = FridgeItem.find(params[:fridge_item])
+    if params[:notes].present?
+      @ingredient.notes = params[:notes]
+    end
+    if params[:source_fridge_item_id].present?
+      @fridge_item = FridgeItem.find(params[:source_fridge_item_id])
     end
   end
 
@@ -78,6 +81,6 @@ class IngredientsController < ApplicationController
     end
     # Only allow a list of trusted parameters through.
     def ingredient_params
-      params.require(:ingredient).permit(:name, :quantity, :notes, :meal_id)
+      params.require(:ingredient).permit(:name, :quantity, :notes, :meal_id, :source_fridge_item_id)
     end
 end
