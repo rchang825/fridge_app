@@ -29,9 +29,9 @@
   <div>
     <%# <%= form.label :meal_id, style: "display: block" %> 
     <%= form.hidden_field :meal_id, value: @meal.id %>
-    <%= form.hidden_field :source_fridge_item_id, value: @fridge_item.id %>
+    <%= form.hidden_field :source_fridge_item_id, value: @fridge_item&.id unless @fridge_item.nil? %>
   </div>
   <div>
-    <%= form.submit data: { turbo_frame: "fridge_items_list" } %>
+    <%= form.submit data: { turbo_frame: "from_fridge_meal" } %> 
   </div>
 <% end %>

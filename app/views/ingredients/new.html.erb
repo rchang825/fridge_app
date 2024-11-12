@@ -1,4 +1,4 @@
-<turbo-frame id="fridge_item_row_<%=@fridge_item.id%>">
+<turbo-frame id= <%= @fridge_item.present? ? "fridge_item_row_#{@fridge_item.id}" : "create_ingredient"%>>
   <h1>New ingredient</h1>
   <%= render "form", ingredient: @ingredient %>
 

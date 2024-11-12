@@ -2,7 +2,7 @@
 
 <%= render "form", meal: @meal %>
 <% @meal.ingredients.each do |ing| %>
-  <%= render "ingredients/ingredient", ingredient: ing %>
+  <%= render "ingredients/meal_ingredient", ingredient: ing %>
   <%= link_to "Edit ingredient", edit_meal_ingredient_path(meal_id: @meal.id, id: ing)%>
 <% end %>
 <%= link_to "Add ingredient", new_meal_ingredient_path(meal_id: @meal.id) %>

@@ -40,3 +40,7 @@ li.shopping_list_item_line {
     display: flex;
     justify-content: space-between;
 }
+.flexbox {
+    display: flex;
+    justify-content: space-between;
+}

@@ -2,57 +2,69 @@
 
 <% if user_signed_in? %> 
 <div> 
-<div class="position-relative">
-  <turbo-frame id="fridge_items_list" target="_top">
-    <div class="fridge-nav">
-      <h1>Fridge items</h1>
-      <% if @meal.present?%>
-        <%= link_to "Finish Meal", edit_meal_path(@meal), { data: { turbo_frame: "_top"}, class: "btn btn-primary btn-lg" } %>
-      <% else %>
-        <%= button_to "Make a Meal", meals_path(from_fridge: true, meal: {name: Meal::DEFAULT_NAME}), { data: { turbo_frame: "fridge_items_list", turbo_action: "advance" }, class: "btn btn-primary btn-lg" } %>
-      <% end %>
-      <%= link_to "+", new_fridge_item_path, class: "btn btn-primary btn-lg" %>  
-    </div>
-    <% if @meal.present? %>
-      <h3><%= "Making meal #{@meal.id}: "%>
-      <%= link_to "#{@meal.name}", meal_path(@meal.id) %></h3>
-    <% end %>
-    <table class="table table-hover" style="width: 100%">
-      <thead>
-        <tr>
-          <th scope="col">
-            <% if @sort_param == "name" %>
-              <%= link_to "Name" %>
-            <% else %>
-              <%= link_to "Name", url_for(sort: "name") %>
-            <% end %>
-            
-          </th>
-          <th scope="col">Quantity</th>
-          <th scope="col">
-            <% if @sort_param == "exp" %>
-              <%= link_to "Expiration Date" %>
-            <% else %>
-              <%= link_to "Expiration Date", url_for(sort: "exp") %>
-            <% end %>
-          </th>
-          <th class="show" scope="col"></th>
-          <% if @meal.nil? %>
-            <th class="notes extra" scope="col">Notes</th>
-            <th class="tags extra" scope="col">Tags</th>
-            <th class="grocery extra" scope="col">Grocery<th>
+<turbo-frame id="from_fridge_meal">
+  <div class="flexbox">
+    <div class="position-relative">
+      <turbo-frame id="fridge_items_list" target="_top">
+        <div class="fridge-nav">
+          <h1>Fridge items</h1>
+          <% if @meal.present?%>
+            <%= link_to "Finish Meal", edit_meal_path(@meal), { data: { turbo_frame: "_top"}, class: "btn btn-primary btn-lg" } %>
+          <% else %>
+            <%= button_to "Make a Meal", meals_path(from_fridge: true, meal: {name: Meal::DEFAULT_NAME}), { data: { turbo_frame: "from_fridge_meal", turbo_action: "advance" }, class: "btn btn-primary btn-lg" } %>
           <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <% @fridge_items.each do |fridge_item| %>
-            <%= render "fridge_item_row", fridge_item: fridge_item %>
+          <%= link_to "+", new_fridge_item_path, class: "btn btn-primary btn-lg" %>  
+        </div>
+        <table class="table table-hover" style="width: 100%">
+          <thead>
+            <tr>
+              <th scope="col">
+                <% if @sort_param == "name" %>
+                  <%= link_to "Name" %>
+                <% else %>
+                  <%= link_to "Name", url_for(sort: "name") %>
+                <% end %>
+                
+              </th>
+              <th scope="col">Quantity</th>
+              <th scope="col">
+                <% if @sort_param == "exp" %>
+                  <%= link_to "Expiration Date" %>
+                <% else %>
+                  <%= link_to "Expiration Date", url_for(sort: "exp") %>
+                <% end %>
+              </th>
+              <th class="show" scope="col"></th>
+              <% if @meal.nil? %>
+                <th class="notes extra" scope="col">Notes</th>
+                <th class="tags extra" scope="col">Tags</th>
+                <th class="grocery extra" scope="col">Grocery<th>
+              <% end %>
+            </tr>
+          </thead>
+          <tbody>
+            <% @fridge_items.each do |fridge_item| %>
+                <%= render "fridge_item_row", fridge_item: fridge_item %>
+            <% end %>
+          </tbody>
+        </table>
+      </turbo-frame>
+    <%# link_to "New fridge item", new_fridge_item_path %> 
+    </div>
+    <div>
+      <% if @meal.present? %>
+        <h3><%= "Making meal #{@meal.id}: "%>
+        <%= link_to "#{@meal.name}", meal_path(@meal.id) %></h3>
+        <% @meal.ingredients.each do |ing| %>
+          <%= render "ingredients/meal_ingredient", ingredient: ing %>
         <% end %>
-      </tbody>
-    </table>
-  </turbo-frame>
- <%# link_to "New fridge item", new_fridge_item_path %> 
-</div>
+        <turbo-frame id="create_ingredient">
+          <%= link_to "Add ingredient", new_meal_ingredient_path(meal_id: @meal.id) %>
+        </turbo-frame>
+      <% end %>
+    </div>
+  </div>
+</turbo-frame>
 <% else %>
   <h1>Not Signed In</h1>
   <p>Please sign up or sign in to view and edit fridge items.</p>
