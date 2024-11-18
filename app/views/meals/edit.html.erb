@@ -5,7 +5,9 @@
   <%= render "ingredients/meal_ingredient", ingredient: ing %>
   <%= link_to "Edit ingredient", edit_meal_ingredient_path(meal_id: @meal.id, id: ing)%>
 <% end %>
-<%= link_to "Add ingredient", new_meal_ingredient_path(meal_id: @meal.id) %>
+<turbo-frame id="create_ingredient">
+  <%= link_to "Add ingredient", new_meal_ingredient_path(meal_id: @meal.id) %>
+</turbo-frame>
 <br>
 
 <div>

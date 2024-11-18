@@ -1,4 +1,4 @@
-<%= form_for([@meal, @ingredient], url: meal_ingredients_path(@meal, @ingredient, from_fridge: true)) do |form| %>
+<%= form_for([@meal, @ingredient], url: meal_ingredients_path(@meal, @ingredient)) do |form| %>
   <% if @ingredient.errors.any? %>
     <div style="color: red">
       <h2><%= pluralize(@ingredient.errors.count, "error") %> prohibited this ingredient from being saved:</h2>
@@ -30,8 +30,13 @@
     <%# <%= form.label :meal_id, style: "display: block" %> 
     <%= form.hidden_field :meal_id, value: @meal.id %>
     <%= form.hidden_field :source_fridge_item_id, value: @fridge_item&.id unless @fridge_item.nil? %>
+    <%= form.hidden_field :from_fridge, value: @from_fridge %>
   </div>
   <div>
-    <%= form.submit data: { turbo_frame: "from_fridge_meal" } %> 
+    <% if @from_fridge %>
+      <%= form.submit data: { turbo_frame: "from_fridge_meal" } %> 
+    <% else %>
+      <%= form.submit data: {turbo_frame: "_top" } %>
+    <% end %>
   </div>
 <% end %>

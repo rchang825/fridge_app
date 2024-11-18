@@ -23,6 +23,7 @@ class IngredientsController < ApplicationController
     if params[:source_fridge_item_id].present?
       @fridge_item = FridgeItem.find(params[:source_fridge_item_id])
     end
+    @from_fridge = params[:from_fridge]
   end
 
   # GET /ingredients/1/edit
@@ -31,15 +32,14 @@ class IngredientsController < ApplicationController
 
   # POST /ingredients or /ingredients.json
   def create
-    @from_fridge = params[:from_fridge]
+    @from_fridge = params[:ingredient][:from_fridge]
     @ingredient = @meal.ingredients.new(ingredient_params)
     respond_to do |format|
       if @ingredient.save
-        if @from_fridge
-          format.html { redirect_to fridge_items_path(meal: @meal), notice: "Ingredient was successfully created." }
+        if @from_fridge == "true"
+          format.html { redirect_to fridge_items_path(meal: @meal.id), notice: "Ingredient was successfully created." }
         else
-          format.html { redirect_to meal_ingredient_path(@meal, @ingredient), notice: "From fridge failed, Ingredient was successfully created." }
-          format.json { render :show, status: :created, location: @ingredient }
+          format.html { redirect_to edit_meal_path(@meal.id)}
         end
       else
         format.html { render :new, status: :unprocessable_entity }

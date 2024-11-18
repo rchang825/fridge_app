@@ -59,7 +59,7 @@
           <%= render "ingredients/meal_ingredient", ingredient: ing %>
         <% end %>
         <turbo-frame id="create_ingredient">
-          <%= link_to "Add ingredient", new_meal_ingredient_path(meal_id: @meal.id) %>
+          <%= link_to "Add ingredient", new_meal_ingredient_path(meal_id: @meal.id, from_fridge: true) %>
         </turbo-frame>
       <% end %>
     </div>

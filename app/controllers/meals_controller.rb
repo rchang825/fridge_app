@@ -26,7 +26,8 @@ class MealsController < ApplicationController
 
     respond_to do |format|
       if @meal.save
-        if params[:from_fridge]
+        @from_fridge = params[:from_fridge]
+        if @from_fridge
           format.html { redirect_to fridge_items_path(meal: @meal)}
         else
           format.html { redirect_to meal_url(@meal), notice: "Meal was successfully created." }
